@@ -20,13 +20,6 @@
 > 为了简化说明，将用 IMPS 的简写来指代 Import Sanitizer
 
 ## 安装方式
-
-### 通过 命令行 进行安装
-
-```sh
-/bin/zsh -c "$(curl -fsSL https://s3plus-corp.sankuai.com/v1/mss_fc3411bb1ab342d4baee3a99d29d0503/artifacts/importsanitizer-install.sh)"
-```
-
 ### 通过源码进行安装
 
 * 在 Github 上下载项目源码
