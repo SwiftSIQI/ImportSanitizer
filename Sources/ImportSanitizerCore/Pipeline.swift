@@ -67,11 +67,17 @@ public final class Pipeline {
 
         print("🚀 开始进行头文件的检查/修复/转换".likeSeperateLine(.normal))
         // 修复头文件引用问题
-        let sanitizer = Sanitizer(reference: mapTable,
+        var sanitizer = Sanitizer(reference: mapTable,
                                   mode: mode,
                                   target: sourceFiles,
                                   needOverwrite: self.needOverwrite)
         // 根据 special pods 决定是否开启 write 模式
-        try sanitizer.scan()
+        let dependencePods = try sanitizer.scan()
+        print("🚀 开始对当前工程的显示依赖进行统计".likeSeperateLine(.normal))
+        sanitizer.printDependence(dependencePods)
+        print("🚀 将扫描结果保存到本地环境中".likeSeperateLine(.normal))
+        try sanitizer.saveResultToLocal(self.referencePath, mode: self.mode)
+
+        
     }
 }

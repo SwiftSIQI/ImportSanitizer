@@ -89,7 +89,7 @@ extension ImportSyntax {
     
     static func searchImportSyntax(in content: String) throws -> [ImportSyntax] {
         var sentence = [ImportSyntax]()
-        // 以 #import或者#include 开头, 中间包含多个空格, 最后包含 < > 或者 " " 的写法
+        // 以 #import 开头, 中间包含多个空格, 最后包含 < > 或者 " " 的写法
         let pattern = ImportRegexPattern.defaultPattern.rawValue
         let regex = try NSRegularExpression(pattern: pattern,
                                             options: .caseInsensitive)

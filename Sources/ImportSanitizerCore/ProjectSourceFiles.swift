@@ -32,16 +32,16 @@ struct ProjectSourceFiles {
 extension ProjectSourceFiles {
     func fetchSourceFiles(path: String, mode: FixMode) throws -> [File] {
         // 核心逻辑 根据不同的模式获取 source file
-        // 在 sdk , convert 模式下, 为 PODSPEC 里 source_file 描述的文件
-        // 在 shell 模式下, 为 PODS 目录下的文件
-        // 在 app 模式下, 为指定文件夹下的文件
         var files = [File]()
         switch mode {
         case .sdk, .convert:
+            // 在 sdk , convert 模式下, 为 PODSPEC 里 source_file 描述的文件
             files = try self.gatherIn(podspecPath: path)
         case .shell:
+            // 在 shell 模式下, 为 PODS 目录下的文件
             files = try self.gatherIn(podsPath: path)
         case .app:
+            // 在 app 模式下, 为指定文件夹下的文件
             files = try self.gatherIn(appPath: path)
         }
         return files

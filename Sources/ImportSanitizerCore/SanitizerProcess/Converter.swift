@@ -13,8 +13,9 @@ struct Converter: SanitizerProcess {
     var reference: HeaderMapTable
     var target : ProjectSourceFiles
     var needOverwrite: Bool
+    var result = [Description]()
     
-    func check(importSyntax: ImportSyntax, in file: File) throws-> Bool {
+    mutating func check(importSyntax: ImportSyntax, in file: File) throws-> Bool {
         switch importSyntax.type {
         case .guillemetsWithSlash, .quotationWithSlash, .noSlash:
             switch mode {
@@ -31,7 +32,7 @@ struct Converter: SanitizerProcess {
                 throw ImportSanitizerError("严重逻辑错误, Converter Process 不应当出现在 app, sdk, shell 模式下")
             }
         case .unknown:
-            throw ImportSanitizerError("无法识别的头文件引用语句, 语句为 \(importSyntax.raw), 在 \(file) 中")
+            throw ImportSanitizerError("无法识别的头文件引用语句, 语句为 \(importSyntax.raw.trimmingCharacters(in: .whitespacesAndNewlines)), 在 \(file.name) 中")
         }
     }
 
@@ -52,7 +53,7 @@ struct Converter: SanitizerProcess {
         let podNames = self.reference.mapTable[String(headerName)]!
         let final = importSyntax.prefix!
                     + " <" + podNames.first! + "/" + headerName + ">"
-        print("头文件引用关系转换成功, 从 \(importSyntax.raw) 变成 \(final), 发生在 \(file.name)".likeValuableSentence(.autoFix))
+        print("头文件引用关系转换成功, 从 \(importSyntax.raw.trimmingCharacters(in: .whitespacesAndNewlines)) 变成 \(final.trimmingCharacters(in: .whitespacesAndNewlines)), 发生在 \(file.name)".likeValuableSentence(.autoFix))
         result = regex.stringByReplacingMatches(in: result,
                                                 options: .reportProgress,
                                                 range: range,
